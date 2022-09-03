@@ -1,15 +1,9 @@
-import './App.css';
+import CookingForm from './CookingForm';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Cooking Recipes
-        </p>
-      </header>
-    </div>
+    <CookingForm />
   );
-}
+};
 
 export default App;
