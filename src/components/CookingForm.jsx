@@ -7,6 +7,7 @@ import './CookingForm.css';
 const CookingForm = () => {
   const [ingredients, setIngredients] = useState('');
   const [openCamera, setOpenCamera] = useState(false);
+  const title = "What ingredients do you have?"
 
   const handleIngredients = (e) => {
     setIngredients(e.target.value)
@@ -23,7 +24,7 @@ const CookingForm = () => {
   return (
     <Box className="App">
       <header className="App-header">
-        <p>Cooking Recipes</p>
+        <p>{title}</p>
         <FormControl>
           <Paper
             component="form"
@@ -35,6 +36,7 @@ const CookingForm = () => {
               value={ingredients}
               placeholder="Ingredient1, Ingredient2, ..."
               onChange={handleIngredients}
+              onEnter
             />
             <IconButton
               type="button"

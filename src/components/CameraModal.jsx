@@ -18,11 +18,13 @@ const CameraModal = (props) => {
       style={{display:'flex', alignItems:'center', justifyContent:'center'}}
     >
       <Paper style={{padding: '20px'}}>
-        <Camera
-          onTakePhoto={handleTakePhoto}
-          idealFacingMode="environment"
-          isImageMirror={false}
-        />
+        {isOpen && 
+          <Camera
+            onTakePhoto={handleTakePhoto}
+            idealFacingMode="environment"
+            isImageMirror={false}
+          />
+        }
       </Paper>
     </Modal>
   )
