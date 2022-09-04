@@ -4,6 +4,7 @@ from flask import jsonify, request, render_template,send_from_directory,request,
 from annoy import AnnoyIndex
 from flask_cors import CORS, cross_origin
 import os
+import whatisthefood
 
 app = flask.Flask(__name__, static_folder='./build',static_url_path='/')
 cors = CORS(app)
@@ -44,6 +45,19 @@ def answer():
         response.append({"title": title, "cuisine": cuisine, "ingredients": ingrs})
 
     return jsonify({"result": response})
+
+@app.route('/image', methods=['GET'])
+@cross_origin()
+def ingredient():
+    if 'url' not in request.args:
+        # If no parameters, it will return broccoli
+        #image_url_broccoli = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvwE4U5NvkAnUlPZVAU6ZNuQc3RhpWo0Fxbw&usqp=CAU'
+        return 'broccoli'
+    else:
+        image_url = request.args['url']
+
+    return whatisthefood.search_ingredient(image_url)    
+
 
 @app.errorhandler(404)
 def not_found(e):
