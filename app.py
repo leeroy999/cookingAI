@@ -18,8 +18,8 @@ t = AnnoyIndex(num_dims, 'angular')
 t.load('base.tree')
 
 @app.route('/')
-def serve():
-    return send_from_directory(app.static_folder, 'index.html')
+def index():
+    return app.send_static_file('index.html')
 
 @app.route('/api', methods=['GET'])
 @cross_origin()
