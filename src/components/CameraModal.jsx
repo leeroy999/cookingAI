@@ -12,14 +12,15 @@ const CameraModal = (props) => {
   const handleTakePhoto = (dataUri) => {
     console.log(dataUri);
     setIsLoading(true);
-    fetch(dataUri)
+    fetch("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/1200px-Banana-Single.jpg")
       .then(res => res.blob())
       .then((val) =>{
-        const url = URL.createObjectURL(val);
+        const file = new File([val], 'picture.png', { type: 'image/png' });
+        const url = URL.createObjectURL(file);
         console.log(url);
-        const formData = new FormData();
-        formData.append('url', url);
-        axios.post("/image", formData).then((response) => {
+        const form = new FormData();
+        form.append('url', file, 'picture.png');
+        axios.post("http://127.0.0.1:33507/image", form).then((response) => {
         // axios.get("/image?url=" + dataUri).then((response) => {
           console.log(response.data)
           addIngredient(response.data);
@@ -33,8 +34,6 @@ const CameraModal = (props) => {
       });
   }
 
-
-  
   return (
     <Modal
       open={isOpen}

@@ -20,7 +20,7 @@ const CookingForm = (props) => {
   };
 
   const addIngredient = (aiIngredient) => {
-    const str = ingredients ? aiIngredient + ", " : ", " + aiIngredient + ", ";
+    const str = ingredients ? ingredients + ", " + aiIngredient + ", " : aiIngredient + ", ";
     setIngredients(str);
   };
 

@@ -12,7 +12,7 @@ const App = () => {
   const onSearch = (value) => {
     setSearch(value);
     setIsLoading(true);
-    axios.get("/api?query=" + value).then((response) => {
+    axios.get("http://127.0.0.1:33507/api?query=" + value).then((response) => {
     // axios.get("/api?query=" + value).then((response) => {
       const newData = response.data;
       console.log(newData.result);

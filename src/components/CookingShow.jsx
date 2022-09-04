@@ -35,7 +35,9 @@ const CookingShow = (props) => {
   };
 
   const addIngredient = (aiIngredient) => {
-    const str = value ? aiIngredient + ", " : ", " + aiIngredient + ", ";
+    console.log("addingredient");
+    console.log(value);
+    const str = value.trim() === "" ? aiIngredient + ", " : value.trim() + ", " + aiIngredient + ", ";
     setValue(str);
   };
 

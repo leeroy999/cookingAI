@@ -52,7 +52,6 @@ PAT = 'da23de69a7254059b0bcab59af895374'
 APP_ID = 'whatthefood'
 # Change these to whatever model and image URL you want to use
 MODEL_ID = 'general-image-recognition'
-IMAGE_FILE_LOCATION = 'YOUR_IMAGE_FILE_LOCATION_HERE'
 #IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvwE4U5NvkAnUlPZVAU6ZNuQc3RhpWo0Fxbw&usqp=CAU'
 # This is optional. You can specify a model version or the empty string for the default
 MODEL_VERSION_ID = ''
@@ -65,13 +64,16 @@ from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
 from clarifai_grpc.grpc.api.status import status_code_pb2
 
-def search_ingredient(IMAGE_URL):
+def search_ingredient(IMAGE_FILE_LOCATION):
     channel = ClarifaiChannel.get_grpc_channel()
     stub = service_pb2_grpc.V2Stub(channel)
 
     metadata = (('authorization', 'Key ' + PAT),)
 
     userDataObject = resources_pb2.UserAppIDSet(user_id=USER_ID, app_id=APP_ID)
+
+    # with open(IMAGE_FILE_LOCATION, "rb") as f:
+    file_bytes = IMAGE_FILE_LOCATION
 
     post_model_outputs_response = stub.PostModelOutputs(
         service_pb2.PostModelOutputsRequest(
@@ -82,7 +84,7 @@ def search_ingredient(IMAGE_URL):
                 resources_pb2.Input(
                     data=resources_pb2.Data(
                         image=resources_pb2.Image(
-                            url=IMAGE_URL
+                            base64=file_bytes
                         )
                     )
                 )

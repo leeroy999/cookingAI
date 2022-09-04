@@ -57,8 +57,8 @@ def answer():
         ingrs = list(df_ingr[df_ingr['Recipe ID'] == id + 1]['Aliased Ingredient Name'].unique())
         ingrs = [ingr.strip() for ingr in ingrs]
 
-        img = "https://commons.wikimedia.org/wiki/File:Orange_question_mark.svg"
-        res = service.cse().list(q=title, cx=CSE_ID, num=1, searchType="image").execute()
+        img = "https://upload.wikimedia.org/wikipedia/commons/3/35/Orange_question_mark.svg"
+        res = service.cse().list(q=title, cx=CSE_ID, num=1, searchType="image").execute() if False else None
         if isinstance(res, dict) and 'items' in res.keys() and res['items'] and 'image' in res['items'][0]:
             img = res['items'][0]['image'].get('thumbnailLink', '')
 
@@ -67,17 +67,17 @@ def answer():
 
     return jsonify({"result": response})
 
-@app.route('/image', methods=['POST'])
+@app.route('/image', methods=['GET', 'POST'])
 @cross_origin()
 def ingredient():
     print("this is test")
     print(request)
-    print(request.form['url'])
     if 'url' not in request.form:
         # If no parameters, it will return broccoli
         #image_url_broccoli = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvwE4U5NvkAnUlPZVAU6ZNuQc3RhpWo0Fxbw&usqp=CAU'
         return 'broccoli'
     else:
+        print(request.form['url'])
         image_url = request.form['url']
 
     return whatisthefood.search_ingredient(image_url)    
