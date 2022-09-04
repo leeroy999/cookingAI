@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import flask
 from flask import jsonify, request, render_template,send_from_directory,request, jsonify, make_response
@@ -22,7 +23,7 @@ ingredients = [ingr.strip() for ingr in df_ingr['Aliased Ingredient Name'].uniqu
 num_dims = len(ingredients)
 dict_ingredients = {name : id for name, id in zip(ingredients, range(num_dims))}
 
-t = AnnoyIndex(num_dims, 'angular')
+t = AnnoyIndex(num_dims, 'euclidean')
 t.load('base.tree')
 
 @app.route('/')
@@ -39,10 +40,17 @@ def answer():
     query = [ingr.strip() for ingr in query.split(',')]
 
     v = [1 if ingr in query else 0 for ingr in ingredients]
-    recipes_id = t.get_nns_by_vector(v, 5)
+    neighbors_id = t.get_nns_by_vector(v, 10)
+    
+    def dist(a, b): return np.sum((np.array(a) - np.array(b)) ** 2) ** 0.5
+    meand = np.mean([dist(v, t.get_item_vector(x)) for x in neighbors_id])
 
     response = []
-    for id in recipes_id:
+    for id in neighbors_id:
+        iv = t.get_item_vector(id)
+        if dist(v, iv) > meand * 1.75 or dist(np.zeros(shape=len(iv)), iv) == 0:
+            continue
+
         recipe = df_recipes[df_recipes['Recipe ID'] == id + 1]
         title = list(recipe['Title'])[0]
         cuisine = list(recipe['Cuisine'])[0]
