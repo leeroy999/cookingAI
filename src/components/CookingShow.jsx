@@ -1,5 +1,5 @@
 import { CameraAlt, Search } from "@mui/icons-material";
-import { Alert, Box, Card, CardContent, CardHeader, Drawer, Grid, IconButton, InputBase, List, ListItem, ListItemText, Paper } from "@mui/material";
+import { Alert, Box, Card, CardContent, CardHeader, Chip, Drawer, Grid, IconButton, InputBase, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import CookingLogo from '../assets/cooknow_logo.png'
 import CameraModal from "./CameraModal";
@@ -54,16 +54,38 @@ const CookingShow = (props) => {
   const renderFoodCard = (cuisine, ingredients, title) => (
     <Card style={{flex: 'auto'}}>
       <CardHeader title={title} />
-      <CardContent>
-        <List style={{maxHeight: '200px', overflow: 'auto'}}>
-          {ingredients.map((ingredient, index) => (
-            <ListItem key={index}>
-              <ListItemText primary={ingredient} />
-            </ListItem>
-          ))}
-        </List>
-        <Box>{cuisine}</Box>
-      </CardContent>
+      <Box style={{display: 'flex', flexDirection: 'row'}}>
+        <CardContent style={{alignSelf: 'center'}}>
+          <img src={CookingLogo} style={{width: '200px'}}/>
+        </CardContent>
+        <CardContent
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            maxHeight: '200px',
+            minHeight: '200px',
+            padding: '10px',
+            marginRight: '16px',
+            flex: 'auto',
+            border: '1px solid grey',
+            borderRadius: '5px'
+          }}>
+          <div style={{textAlign: 'left', paddingBottom: '10px'}}>Ingredients:</div>
+          <Box style={{minHeight: '100px'}}>
+            <Grid
+              container
+              spacing={1}
+            >
+              {ingredients.map((ingredient, index) => (
+                <Grid item key={index}>
+                  <Chip label={ingredient} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </CardContent>
+      </Box>
+      <Box style={{paddingBottom: '10px'}}>{cuisine}</Box>
     </Card>
   );
 
@@ -109,10 +131,10 @@ const CookingShow = (props) => {
         </IconButton>
       </Paper>
       <Grid 
-        style={{ padding: '10px' }}
+        style={{ padding: '10px 10vw 10px 10vw' }}
         container
-        spacing='5px' 
-        columns={{ xs: 1, lg: 3 }}>
+        spacing='10px' 
+        columns={1}>
         {data.length !== 0 && data.map((food) => {
           const {cuisine, ingredients, title} = food;
           console.log(cuisine);
@@ -121,10 +143,10 @@ const CookingShow = (props) => {
           return (
             <Grid
               item
-              xs={0.75}
+              xs={1}
               style={{
                 display: 'flex',
-                justifyContent: 'left',
+                justifyContent: 'center',
               }}
             >
               {renderFoodCard(cuisine, ingredients, title)}
