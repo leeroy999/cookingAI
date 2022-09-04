@@ -1,26 +1,32 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CookingForm from './CookingForm';
 import CookingShow from './CookingShow';
+import LoadingIndicator from './LoadingIndicator';
 
 const App = () => {
   const [search, setSearch] = useState("");
-  const [data, setData] = useState([])
-
-  // useEffect(() => {
-  //   if (search) {
-  //   }
-  // }, [search]);
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSearch = (value) => {
     setSearch(value);
-    axios.get("http://127.0.0.1:33507/api?query=" + value).then((response) => {
+    setIsLoading(true);
+    axios.get("/api?query=" + value).then((response) => {
     // axios.get("/api?query=" + value).then((response) => {
       const newData = response.data;
       console.log(newData.result);
-      setData(newData.result)
+      setData(newData.result);
+      setIsLoading(false);
+    }).catch((e) => {
+      console.log(e);
+      setIsLoading(false);
     })
   };
+
+  if (isLoading) {
+    return <LoadingIndicator />
+  }
 
   return (
     search === "" ? (

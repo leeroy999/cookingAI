@@ -59,15 +59,18 @@ def answer():
 
     return jsonify({"result": response})
 
-@app.route('/image', methods=['GET'])
+@app.route('/image', methods=['POST'])
 @cross_origin()
 def ingredient():
-    if 'url' not in request.args:
+    print("this is test")
+    print(request)
+    print(request.form['url'])
+    if 'url' not in request.form:
         # If no parameters, it will return broccoli
         #image_url_broccoli = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvwE4U5NvkAnUlPZVAU6ZNuQc3RhpWo0Fxbw&usqp=CAU'
         return 'broccoli'
     else:
-        image_url = request.args['url']
+        image_url = request.form['url']
 
     return whatisthefood.search_ingredient(image_url)    
 

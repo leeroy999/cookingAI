@@ -51,12 +51,12 @@ const CookingShow = (props) => {
     }
   }
 
-  const renderFoodCard = (cuisine, ingredients, title) => (
+  const renderFoodCard = (cuisine, ingredients, title, image) => (
     <Card style={{flex: 'auto'}}>
       <CardHeader title={title} />
       <Box style={{display: 'flex', flexDirection: 'row'}}>
         <CardContent style={{alignSelf: 'center'}}>
-          <img src={CookingLogo} style={{width: '200px'}} alt={title}/>
+          <img src={image} style={{width: '200px'}} alt={title}/>
         </CardContent>
         <CardContent
           style={{
@@ -136,10 +136,11 @@ const CookingShow = (props) => {
         spacing='10px' 
         columns={1}>
         {data.length !== 0 && data.map((food) => {
-          const {cuisine, ingredients, title} = food;
+          const {cuisine, ingredients, title, image} = food;
           console.log(cuisine);
           console.log(ingredients);
           console.log(title);
+          console.log(image);
           return (
             <Grid
               item
@@ -149,7 +150,7 @@ const CookingShow = (props) => {
                 justifyContent: 'center',
               }}
             >
-              {renderFoodCard(cuisine, ingredients, title)}
+              {renderFoodCard(cuisine, ingredients, title, image)}
             </Grid>
           );
         })}
