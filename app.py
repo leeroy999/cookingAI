@@ -5,6 +5,12 @@ from annoy import AnnoyIndex
 from flask_cors import CORS, cross_origin
 import os
 import whatisthefood
+from googleapiclient.discovery import build
+
+ACCESS_KEY = os.environ.get('ACCESS_KEY', '')
+CSE_ID = os.environ.get('CSE_ID', '')
+
+service = build("customsearch", "v1", developerKey=ACCESS_KEY)
 
 app = flask.Flask(__name__, static_folder='./build',static_url_path='/')
 cors = CORS(app)
@@ -33,7 +39,7 @@ def answer():
     query = [ingr.strip() for ingr in query.split(',')]
 
     v = [1 if ingr in query else 0 for ingr in ingredients]
-    recipes_id = t.get_nns_by_vector(v, 10)
+    recipes_id = t.get_nns_by_vector(v, 5)
 
     response = []
     for id in recipes_id:
@@ -42,7 +48,14 @@ def answer():
         cuisine = list(recipe['Cuisine'])[0]
         ingrs = list(df_ingr[df_ingr['Recipe ID'] == id + 1]['Aliased Ingredient Name'].unique())
         ingrs = [ingr.strip() for ingr in ingrs]
-        response.append({"title": title, "cuisine": cuisine, "ingredients": ingrs})
+
+        img = "https://commons.wikimedia.org/wiki/File:Orange_question_mark.svg"
+        res = service.cse().list(q=title, cx=CSE_ID, num=1, searchType="image").execute()
+        if isinstance(res, dict) and 'items' in res.keys() and res['items'] and 'image' in res['items'][0]:
+            img = res['items'][0]['image'].get('thumbnailLink', '')
+
+        response.append({"title": title, "cuisine": cuisine, "ingredients": ingrs, 'image': img})
+        
 
     return jsonify({"result": response})
 
