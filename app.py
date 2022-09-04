@@ -58,9 +58,11 @@ def answer():
         ingrs = [ingr.strip() for ingr in ingrs]
 
         img = "https://commons.wikimedia.org/wiki/File:Orange_question_mark.svg"
-        res = service.cse().list(q=title, cx=CSE_ID, num=1, searchType="image").execute()
-        if isinstance(res, dict) and 'items' in res.keys() and res['items'] and 'image' in res['items'][0]:
+        try:
+            res = service.cse().list(q=title, cx=CSE_ID, num=1, searchType="image").execute()
             img = res['items'][0]['image'].get('thumbnailLink', '')
+        except:
+            pass
 
         response.append({"title": title, "cuisine": cuisine, "ingredients": ingrs, 'image': img})
         
