@@ -20,7 +20,8 @@ const CookingForm = (props) => {
   };
 
   const addIngredient = (aiIngredient) => {
-    setIngredients(ingredients + aiIngredient);
+    const str = ingredients ? aiIngredient + ", " : ", " + aiIngredient + ", ";
+    setIngredients(str);
   };
 
   const handleCloseModal = () => {
@@ -64,7 +65,7 @@ const CookingForm = (props) => {
           <IconButton
             type="button"
             sx={{ p: '10px' }}
-            aria-label="search"
+            aria-label="camera"
             onClick={() => setOpenCamera(true)}
           >
             <CameraAlt />
