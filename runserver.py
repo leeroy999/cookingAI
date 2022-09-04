@@ -1,9 +1,11 @@
 import pandas as pd
 import flask
-from flask import jsonify, request
+from flask import jsonify, request, render_template,send_from_directory,request, jsonify, make_response
 from annoy import AnnoyIndex
+from flask_cors import CORS, cross_origin
 
-app = flask.Flask(__name__)
+app = flask.Flask(__name__, static_folder='build',static_url_path='')
+cors = CORS(app)
 app.config["DEBUG"] = True
 
 df_recipes = pd.read_csv('data\\01_Recipe_Details.csv')
@@ -15,7 +17,8 @@ dict_ingredients = {name : id for name, id in zip(ingredients, range(num_dims))}
 t = AnnoyIndex(num_dims, 'angular')
 t.load('base.tree')
 
-@app.route('/', methods=['GET'])
+@app.route('/api', methods=['GET'])
+@cross_origin()
 def answer():
     if 'query' not in request.args:
         return "bad request"
@@ -37,4 +40,5 @@ def answer():
 
     return jsonify({"result": response})
 
-app.run()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')

@@ -3,7 +3,6 @@ import Camera from 'react-html5-camera-photo';
 import "react-html5-camera-photo/build/css/index.css";
 
 const CameraModal = (props) => {
-  console.log(props);
   const { isOpen, handleClose, addIngredient } = props;
 
   const handleTakePhoto = (dataUri) => {
