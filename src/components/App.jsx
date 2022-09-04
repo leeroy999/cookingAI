@@ -7,14 +7,14 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([])
 
-  useEffect(() => {
-    if (search) {
-    }
-  }, [search]);
+  // useEffect(() => {
+  //   if (search) {
+  //   }
+  // }, [search]);
 
   const onSearch = (value) => {
     setSearch(value);
-    axios.get("http://127.0.0.1:33507//api?query=" + value).then((response) => {
+    axios.get("http://127.0.0.1:33507/api?query=" + value).then((response) => {
     // axios.get("/api?query=" + value).then((response) => {
       const newData = response.data;
       console.log(newData.result);

@@ -56,7 +56,7 @@ const CookingShow = (props) => {
       <CardHeader title={title} />
       <Box style={{display: 'flex', flexDirection: 'row'}}>
         <CardContent style={{alignSelf: 'center'}}>
-          <img src={CookingLogo} style={{width: '200px'}}/>
+          <img src={CookingLogo} style={{width: '200px'}} alt={title}/>
         </CardContent>
         <CardContent
           style={{
