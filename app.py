@@ -3,6 +3,7 @@ import flask
 from flask import jsonify, request, render_template,send_from_directory,request, jsonify, make_response
 from annoy import AnnoyIndex
 from flask_cors import CORS, cross_origin
+import os
 
 app = flask.Flask(__name__, static_folder='./build',static_url_path='/')
 cors = CORS(app)
@@ -44,5 +45,9 @@ def answer():
 
     return jsonify({"result": response})
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
