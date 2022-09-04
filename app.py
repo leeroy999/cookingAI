@@ -4,7 +4,7 @@ from flask import jsonify, request, render_template,send_from_directory,request,
 from annoy import AnnoyIndex
 from flask_cors import CORS, cross_origin
 
-app = flask.Flask(__name__, static_folder='build',static_url_path='')
+app = flask.Flask(__name__, static_folder='./build',static_url_path='/')
 cors = CORS(app)
 app.config["DEBUG"] = True
 
@@ -16,6 +16,10 @@ dict_ingredients = {name : id for name, id in zip(ingredients, range(num_dims))}
 
 t = AnnoyIndex(num_dims, 'angular')
 t.load('base.tree')
+
+@app.route('/')
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/api', methods=['GET'])
 @cross_origin()
