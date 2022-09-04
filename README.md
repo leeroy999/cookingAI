@@ -2,7 +2,7 @@
 
 Cooknow is a web-based application that looks for the best recipe for the ingredients that you provide. It cointains a database of more than 45000 recipes and 800 ingredients. It is also possible to scan the ingredients with your camera.
 
-![logo](src\assets\cooknow_logo.png)
+![logo](src/assets/cooknow_logo.png)
 
 ## Installation
 
