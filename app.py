@@ -57,10 +57,18 @@ def answer():
         ingrs = list(df_ingr[df_ingr['Recipe ID'] == id + 1]['Aliased Ingredient Name'].unique())
         ingrs = [ingr.strip() for ingr in ingrs]
 
+<<<<<<< HEAD
         img = "https://upload.wikimedia.org/wikipedia/commons/3/35/Orange_question_mark.svg"
         res = service.cse().list(q=title, cx=CSE_ID, num=1, searchType="image").execute() if False else None
         if isinstance(res, dict) and 'items' in res.keys() and res['items'] and 'image' in res['items'][0]:
+=======
+        img = "https://commons.wikimedia.org/wiki/File:Orange_question_mark.svg"
+        try:
+            res = service.cse().list(q=title, cx=CSE_ID, num=1, searchType="image").execute()
+>>>>>>> cb3ded2805d4ea2aed9954eb6047e68cfa06af1b
             img = res['items'][0]['image'].get('thumbnailLink', '')
+        except:
+            pass
 
         response.append({"title": title, "cuisine": cuisine, "ingredients": ingrs, 'image': img})
         
